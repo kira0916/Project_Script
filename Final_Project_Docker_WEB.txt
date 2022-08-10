@@ -20,7 +20,9 @@ sed -i '60 i JkLogFile /var/log/httpd/mod_jk.log' /etc/httpd/conf/httpd.conf
 sed -i '61 i JkLogLevel info' /etc/httpd/conf/httpd.conf
 sed -i '62 i JkLogStampFormat "[%a %b $d %H:%M:%S %Y]"' /etc/httpd/conf/httpd.conf
 sed -i '63 i JkMount /*.* balancer' /etc/httpd/conf/httpd.conf
-sed -i '64 i </IfModule>' /etc/httpd/conf/httpd.conf
+sed -i '64 i SetEnvIf Request_URI "health\.+html$" html_filter_flag=1' /etc/httpd/conf/httpd.conf
+sed -i '65 i SetEnvIf html_filter_flag 1 no-jk' /etc/httpd/conf/httpd.conf
+sed -i '66 i </IfModule>' /etc/httpd/conf/httpd.conf
 
 cat >> /etc/httpd/conf/workers.properties << EOF
 
